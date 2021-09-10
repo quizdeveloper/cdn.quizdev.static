@@ -11395,26 +11395,26 @@ var main = {
             }
 
             // Show popup ads
-            var documentWidthAds = $("html,body").outerWidth();
-            if (documentWidthAds > 767) {
-                var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-                adsStr += '<ins class="adsbygoogle example_responsive_10"';
-                adsStr += '	 style="display:inline-block"';
-                adsStr += '	 data-ad-client="ca-pub-9281966853731924"';
-                adsStr += '	 data-ad-slot="8942510359"></ins>';
-                adsStr += '<script>';
-                adsStr += '	(adsbygoogle = window.adsbygoogle || []).push({});';
-                adsStr += '</script>';
-                setTimeout(function () {
-                    $(".ads-popup-container .close").click(function () {
-                        $(".ads-popup-container").remove();
-                    });
+            //var documentWidthAds = $("html,body").outerWidth();
+            //if (documentWidthAds > 767) {
+            //    var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
+            //    adsStr += '<ins class="adsbygoogle example_responsive_10"';
+            //    adsStr += '	 style="display:inline-block"';
+            //    adsStr += '	 data-ad-client="ca-pub-9281966853731924"';
+            //    adsStr += '	 data-ad-slot="8942510359"></ins>';
+            //    adsStr += '<script>';
+            //    adsStr += '	(adsbygoogle = window.adsbygoogle || []).push({});';
+            //    adsStr += '</script>';
+            //    setTimeout(function () {
+            //        $(".ads-popup-container .close").click(function () {
+            //            $(".ads-popup-container").remove();
+            //        });
 
-                    $(".ads-popup-container").animate({ bottom: 0 }, 500);
-                    $(".ads-popup-container .ads").html(adsStr);
-                }, 10000);
+            //        $(".ads-popup-container").animate({ bottom: 0 }, 500);
+            //        $(".ads-popup-container .ads").html(adsStr);
+            //    }, 10000);
 
-            }
+            //}
 
             // Load login item menu
             main.check_login();
@@ -12462,20 +12462,19 @@ var news_detail = {
 
             setTimeout(function () {
                 var isLocal = parseInt($("#hdLocalEnv").val());
-                if ($("div.ads-code").length > 0 && isLocal === 0) {
-                    $("div.ads-code").each(function () {
-                        var ads = '';
-                        ads += '<ins class="adsbygoogle"';
-                        ads += '     style="display:block"';
-                        ads += '     data-ad-client="ca-pub-9281966853731924"';
-                        ads += '     data-ad-slot="8269087623"';
-                        ads += '     data-ad-format="auto"';
-                        ads += '     data-full-width-responsive="true"></ins>';
-                        ads += '<script>';
-                        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
-                        ads += '</script>';
+                if ($(".ads-code").length > 0 && isLocal === 0) {
 
-                        $(this).html(ads);
+                    $.ajax({
+                        url: "/Home/ShowResponsiveAds",
+                        type: "GET",
+                        dataType: "html",
+                        data: null,
+                        async: true,
+                        success: function (response) {
+                            if (response !== null) {
+                                $(".ads-code").html(response);
+                            }
+                        }
                     });
                 }
             }, 3000);
