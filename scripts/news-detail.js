@@ -11179,6 +11179,26 @@ var qdm_popup = qdm_popup || {};
 
 var main = {
     init: function () {
+
+        // Check blocked ads
+        window.onload = function () {
+            setTimeout(function () {
+                if (window.isAllowShowAdd === undefined) {
+                    // Show dialog here
+                    qdm_popup.init({
+                        type: 4,
+                        message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
+                        button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+                        show_close: false,
+                        icon: 2
+                    });
+
+                    //push to queue
+                    $.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
+                }
+            }, 500);
+        }
+
         $(document).ready(function () {
 
             // Show and hide menu
@@ -11327,47 +11347,47 @@ var main = {
                 if (!isLoadUi) {
                     isLoadUi = true;
                     lazy_load_js('../js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js?v=123', function () {
-                        setTimeout(function () { 
-                        let xhr = null;
-                        $("#txtSearch").autocomplete({
-                            minLength: 2,
-                            delay: 500,
-                            //autoFocus: true,
-                            source: function (request, response) {
-                                var keyword = $.trim(request.term);
-                                if (keyword.length > -1) {
-                                    var urlRequest = '';
-                                    urlRequest = '/News/GetSuggestionSearch';
-                                    if (xhr !== null && xhr.readyState !== 4) {
-                                        xhr.abort();
-                                    }
-                                    xhr = $.ajax({
-                                        url: urlRequest,
-                                        data: { "keyword": keyword },
-                                        success: function (dataJson) {
-                                            response(eval(dataJson));
+                        setTimeout(function () {
+                            let xhr = null;
+                            $("#txtSearch").autocomplete({
+                                minLength: 2,
+                                delay: 500,
+                                //autoFocus: true,
+                                source: function (request, response) {
+                                    var keyword = $.trim(request.term);
+                                    if (keyword.length > -1) {
+                                        var urlRequest = '';
+                                        urlRequest = '/News/GetSuggestionSearch';
+                                        if (xhr !== null && xhr.readyState !== 4) {
+                                            xhr.abort();
                                         }
-                                    });
-                                }
-                            },
-                            select: function (event, ui) {
-                                if (ui !== null && ui !== undefined) {
-                                    var linkRed = ui.item.detailUrl;
-                                    if (linkRed !== undefined && linkRed !== null && linkRed !== "") {
-                                        window.location.href = linkRed;
+                                        xhr = $.ajax({
+                                            url: urlRequest,
+                                            data: { "keyword": keyword },
+                                            success: function (dataJson) {
+                                                response(eval(dataJson));
+                                            }
+                                        });
+                                    }
+                                },
+                                select: function (event, ui) {
+                                    if (ui !== null && ui !== undefined) {
+                                        var linkRed = ui.item.detailUrl;
+                                        if (linkRed !== undefined && linkRed !== null && linkRed !== "") {
+                                            window.location.href = linkRed;
+                                        }
                                     }
                                 }
-                            }
-                        }).bind('focus', function () {
-                            $(this).autocomplete("search");
-                        }).autocomplete("instance")._renderItem = function (ul, item) {
-                            if (item.suggestion !== null && item.suggestion !== '') {
-                                let itemLabel = utils.replace_bold_text(item.title, this.term);
-                                return $("<li class='item-search'>")
-                                    .append("<a href='" + item.detailUrl + "'><span>" + itemLabel + "</span> <span>" + item.newsTypeText + "</span></a>")
-                                    .appendTo(ul);
-                            }
-                        };
+                            }).bind('focus', function () {
+                                $(this).autocomplete("search");
+                            }).autocomplete("instance")._renderItem = function (ul, item) {
+                                if (item.suggestion !== null && item.suggestion !== '') {
+                                    let itemLabel = utils.replace_bold_text(item.title, this.term);
+                                    return $("<li class='item-search'>")
+                                        .append("<a href='" + item.detailUrl + "'><span>" + itemLabel + "</span> <span>" + item.newsTypeText + "</span></a>")
+                                        .appendTo(ul);
+                                }
+                            };
                         }, 1000);
                     });
                 }
@@ -11527,7 +11547,6 @@ var main = {
             return false;
         });
     },
-
     search: function (keyword) {
         keyword = keyword.replace(/(<([^>]+)>)/ig, "");
         keyword = keyword.replace(/ /ig, "-");
@@ -11543,7 +11562,7 @@ var main = {
                 }
             }
         });
-    }
+    },
 };
 
 

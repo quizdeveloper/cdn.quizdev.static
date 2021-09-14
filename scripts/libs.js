@@ -11067,6 +11067,26 @@ var qdm_popup = qdm_popup || {};
 
 var main = {
     init: function () {
+
+        // Check blocked ads
+        window.onload = function () {
+            setTimeout(function () {
+                if (window.isAllowShowAdd === undefined) {
+                    // Show dialog here
+                    qdm_popup.init({
+                        type: 4,
+                        message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
+                        button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+                        show_close: false,
+                        icon: 2
+                    });
+
+                    //push to queue
+                    $.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
+                }
+            }, 500);
+        }
+
         $(document).ready(function () {
 
             // Show and hide menu
@@ -11215,47 +11235,47 @@ var main = {
                 if (!isLoadUi) {
                     isLoadUi = true;
                     lazy_load_js('../js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js?v=123', function () {
-                        setTimeout(function () { 
-                        let xhr = null;
-                        $("#txtSearch").autocomplete({
-                            minLength: 2,
-                            delay: 500,
-                            //autoFocus: true,
-                            source: function (request, response) {
-                                var keyword = $.trim(request.term);
-                                if (keyword.length > -1) {
-                                    var urlRequest = '';
-                                    urlRequest = '/News/GetSuggestionSearch';
-                                    if (xhr !== null && xhr.readyState !== 4) {
-                                        xhr.abort();
-                                    }
-                                    xhr = $.ajax({
-                                        url: urlRequest,
-                                        data: { "keyword": keyword },
-                                        success: function (dataJson) {
-                                            response(eval(dataJson));
+                        setTimeout(function () {
+                            let xhr = null;
+                            $("#txtSearch").autocomplete({
+                                minLength: 2,
+                                delay: 500,
+                                //autoFocus: true,
+                                source: function (request, response) {
+                                    var keyword = $.trim(request.term);
+                                    if (keyword.length > -1) {
+                                        var urlRequest = '';
+                                        urlRequest = '/News/GetSuggestionSearch';
+                                        if (xhr !== null && xhr.readyState !== 4) {
+                                            xhr.abort();
                                         }
-                                    });
-                                }
-                            },
-                            select: function (event, ui) {
-                                if (ui !== null && ui !== undefined) {
-                                    var linkRed = ui.item.detailUrl;
-                                    if (linkRed !== undefined && linkRed !== null && linkRed !== "") {
-                                        window.location.href = linkRed;
+                                        xhr = $.ajax({
+                                            url: urlRequest,
+                                            data: { "keyword": keyword },
+                                            success: function (dataJson) {
+                                                response(eval(dataJson));
+                                            }
+                                        });
+                                    }
+                                },
+                                select: function (event, ui) {
+                                    if (ui !== null && ui !== undefined) {
+                                        var linkRed = ui.item.detailUrl;
+                                        if (linkRed !== undefined && linkRed !== null && linkRed !== "") {
+                                            window.location.href = linkRed;
+                                        }
                                     }
                                 }
-                            }
-                        }).bind('focus', function () {
-                            $(this).autocomplete("search");
-                        }).autocomplete("instance")._renderItem = function (ul, item) {
-                            if (item.suggestion !== null && item.suggestion !== '') {
-                                let itemLabel = utils.replace_bold_text(item.title, this.term);
-                                return $("<li class='item-search'>")
-                                    .append("<a href='" + item.detailUrl + "'><span>" + itemLabel + "</span> <span>" + item.newsTypeText + "</span></a>")
-                                    .appendTo(ul);
-                            }
-                        };
+                            }).bind('focus', function () {
+                                $(this).autocomplete("search");
+                            }).autocomplete("instance")._renderItem = function (ul, item) {
+                                if (item.suggestion !== null && item.suggestion !== '') {
+                                    let itemLabel = utils.replace_bold_text(item.title, this.term);
+                                    return $("<li class='item-search'>")
+                                        .append("<a href='" + item.detailUrl + "'><span>" + itemLabel + "</span> <span>" + item.newsTypeText + "</span></a>")
+                                        .appendTo(ul);
+                                }
+                            };
                         }, 1000);
                     });
                 }
@@ -11283,26 +11303,26 @@ var main = {
             }
 
             // Show popup ads
-            var documentWidthAds = $("html,body").outerWidth();
-            if (documentWidthAds > 767) {
-                var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-                adsStr += '<ins class="adsbygoogle example_responsive_10"';
-                adsStr += '	 style="display:inline-block"';
-                adsStr += '	 data-ad-client="ca-pub-9281966853731924"';
-                adsStr += '	 data-ad-slot="8942510359"></ins>';
-                adsStr += '<script>';
-                adsStr += '	(adsbygoogle = window.adsbygoogle || []).push({});';
-                adsStr += '</script>';
-                setTimeout(function () {
-                    $(".ads-popup-container .close").click(function () {
-                        $(".ads-popup-container").remove();
-                    });
+            //var documentWidthAds = $("html,body").outerWidth();
+            //if (documentWidthAds > 767) {
+            //    var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
+            //    adsStr += '<ins class="adsbygoogle example_responsive_10"';
+            //    adsStr += '	 style="display:inline-block"';
+            //    adsStr += '	 data-ad-client="ca-pub-9281966853731924"';
+            //    adsStr += '	 data-ad-slot="8942510359"></ins>';
+            //    adsStr += '<script>';
+            //    adsStr += '	(adsbygoogle = window.adsbygoogle || []).push({});';
+            //    adsStr += '</script>';
+            //    setTimeout(function () {
+            //        $(".ads-popup-container .close").click(function () {
+            //            $(".ads-popup-container").remove();
+            //        });
 
-                    $(".ads-popup-container").animate({ bottom: 0 }, 500);
-                    $(".ads-popup-container .ads").html(adsStr);
-                }, 10000);
+            //        $(".ads-popup-container").animate({ bottom: 0 }, 500);
+            //        $(".ads-popup-container .ads").html(adsStr);
+            //    }, 10000);
 
-            }
+            //}
 
             // Load login item menu
             main.check_login();
@@ -11415,7 +11435,6 @@ var main = {
             return false;
         });
     },
-
     search: function (keyword) {
         keyword = keyword.replace(/(<([^>]+)>)/ig, "");
         keyword = keyword.replace(/ /ig, "-");
@@ -11431,7 +11450,7 @@ var main = {
                 }
             }
         });
-    }
+    },
 };
 
 
