@@ -11180,6 +11180,7 @@ var main = {
         // Check blocked ads
         window.onload = function () {
             setTimeout(function () {
+                console.log("isAllowShowAdd:" + window.isAllowShowAdd);
                 if (window.isAllowShowAdd === undefined) {
                     // Show dialog here
                     qdm_popup.init({
