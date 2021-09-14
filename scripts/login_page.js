@@ -11192,16 +11192,16 @@ var main = {
                 console.log("isAllowShowAdd: " + window.isAllowShowAdd);
                 if (window.isAllowShowAdd === undefined) {
                     // Show dialog here
-                    qdm_popup.init({
-                        type: 4,
-                        message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
-                        button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
-                        show_close: false,
-                        icon: 2
-                    });
+                    //qdm_popup.init({
+                    //    type: 4,
+                    //    message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
+                    //    button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+                    //    show_close: false,
+                    //    icon: 2
+                    //});
 
-                    //push to queue
-                    $.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
+                    ////push to queue
+                    //$.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
                 }
             }, 500);
         }
