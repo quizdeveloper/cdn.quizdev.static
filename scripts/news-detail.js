@@ -12455,23 +12455,23 @@ var news_detail = {
                 // initialize last scroll position
                 lastY = el.scrollTop();
 
-            el.on("load", function () {
-                // Sticky social
-                if (documentWidth > 767) {
-                    setTimeout(function () {
-                        var maxH = $(".main-container .primary").height() - 11;
-                        $(".main-container .secondary").css("height", maxH + "px")
+            //el.on("load", function () {
+            //    // Sticky social
+            //    if (documentWidth > 767) {
+            //        setTimeout(function () {
+            //            var maxH = $(".main-container .primary").height() - 11;
+            //            $(".main-container .secondary").css("height", maxH + "px")
 
-                        if ($("#sticker").length > 0) {
-                            $("#sticker").stick_in_parent({ offset_top: 70 });
-                        }
+            //            if ($("#sticker").length > 0) {
+            //                $("#sticker").stick_in_parent({ offset_top: 70 });
+            //            }
 
-                        if ($(".sticky-pc").length > 0) {
-                            $(".sticky-pc").stick_in_parent({ offset_top: 60 });
-                        }
-                    }, 500);
-                }
-            });
+            //            if ($(".sticky-pc").length > 0) {
+            //                $(".sticky-pc").stick_in_parent({ offset_top: 60 });
+            //            }
+            //        }, 500);
+            //    }
+            //});
 
             el.on('scroll', function () {
                 var documentWidth = $("html,body").outerWidth();
@@ -12503,26 +12503,34 @@ var news_detail = {
                 });
             }
 
-            setTimeout(function () {
-                comment.init();
-            }, 3000);
+            comment.init();
 
             setTimeout(function () {
-                var isLocal = parseInt($("#hdLocalEnv").val());
-                if ($(".ads-code").length > 0 && isLocal === 0) {
+                //var isLocal = parseInt($("#hdLocalEnv").val());
+                //if ($(".ads-code").length > 0 && isLocal === 0) {
+                if ($(".ads-code").length > 0) {
 
-                    $.ajax({
-                        url: "/Home/ShowResponsiveAds",
-                        type: "GET",
-                        dataType: "html",
-                        data: null,
-                        async: true,
-                        success: function (response) {
-                            if (response !== null) {
-                                $(".ads-code").html(response);
-                            }
+                    let countAds = 182;
+                    $(".ads-code").each(function () {
+                        countAds++;
+                        if (countAds <= 188) {
+                            let ads = '<div id="ezoic-pub-ad-placeholder-' + countAds +'"> </div>';
+                            $(this).html(ads);
                         }
                     });
+
+                    //$.ajax({
+                    //    url: "/Home/ShowResponsiveAds",
+                    //    type: "GET",
+                    //    dataType: "html",
+                    //    data: null,
+                    //    async: true,
+                    //    success: function (response) {
+                    //        if (response !== null) {
+                    //            $(".ads-code").html(response);
+                    //        }
+                    //    }
+                    //});
                 }
             }, 3000);
 
@@ -12567,7 +12575,7 @@ var news_detail = {
                 readOnly: true
             });
 
-                $('.content-detail-container').magnificPopup({
+            $('.content-detail-container').magnificPopup({
                 delegate: 'img', type: 'image',
 
                 callbacks: {

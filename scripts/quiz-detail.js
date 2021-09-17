@@ -581,21 +581,21 @@ var quiz = {
             $(".box-content-question").html(strHtml);
 
             // add ads
-            if (!isNaN(stt)) {
-                if (parseInt(stt) % 2 !== 0) {
-                    if ($(".quiz-ads-content").length > 0) {
-                        var htmlAds = "";
-                        htmlAds += '<ins class="adsbygoogle example_responsive_2"';
-                        htmlAds += '	 style="display:inline-block"';
-                        htmlAds += '	 data-ad-client="ca-pub-9281966853731924"';
-                        htmlAds += '	 data-ad-slot="8942510359"></ins>';
-                        htmlAds += '<script>';
-                        htmlAds += '	(adsbygoogle = window.adsbygoogle || []).push({});';
-                        htmlAds += '</script>';
-                        $(".quiz-ads-content").html(htmlAds);
-                    }
-                }
-            }
+            //if (!isNaN(stt)) {
+            //    if (parseInt(stt) % 2 !== 0) {
+            //        if ($(".quiz-ads-content").length > 0) {
+            //            var htmlAds = "";
+            //            htmlAds += '<ins class="adsbygoogle example_responsive_2"';
+            //            htmlAds += '	 style="display:inline-block"';
+            //            htmlAds += '	 data-ad-client="ca-pub-9281966853731924"';
+            //            htmlAds += '	 data-ad-slot="8942510359"></ins>';
+            //            htmlAds += '<script>';
+            //            htmlAds += '	(adsbygoogle = window.adsbygoogle || []).push({});';
+            //            htmlAds += '</script>';
+            //            $(".quiz-ads-content").html(htmlAds);
+            //        }
+            //    }
+            //}
         }
     },
     set_answer: function () {
