@@ -11226,7 +11226,7 @@ var qa_detail = {
                     lazy_load_js(ckeLinkJs);
                     lazy_load_css(ckeLinkCss);
                     editorLoaded = true;
-                } 
+                }
 
                 // add ads for mobile
                 if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
@@ -11250,62 +11250,77 @@ var qa_detail = {
             });
 
 
-            $("#txtAnswer").click(function () {
-                editorClicked = true;
-                if (editorClicked) {
-                    // Init ckeditor
-                    //setTimeout(function () {
-                    $(".ckeditor-make").each(function () {
-                        var id = $(this).attr("id");
+            //$("#txtAnswer").click(function () {
+            //    editorClicked = true;
+            //    if (editorClicked) {
+            //        // Init ckeditor
+            //        //setTimeout(function () {
+            //        $(".ckeditor-make").each(function () {
+            //            var id = $(this).attr("id");
 
-                        if (!CKEDITOR.instances[id]) {
+            //            if (!CKEDITOR.instances[id]) {
 
-                            var introduction = document.getElementById(id);
-                            introduction.setAttribute('contenteditable', true);
+            //                var introduction = document.getElementById(id);
+            //                introduction.setAttribute('contenteditable', true);
 
-                            CKEDITOR.disableAutoInline = true;
-                            CKEDITOR.inline(id, {
-                                height: 300,
-                                customConfig: '/js/lib/ckeditor/config.js'
-                            });
+            //                CKEDITOR.disableAutoInline = true;
+            //                CKEDITOR.inline(id, {
+            //                    height: 300,
+            //                    customConfig: '/js/lib/ckeditor/config.js'
+            //                });
 
-                            // Catch focus event
-                            CKEDITOR.on('instanceReady', function (evt) {
-                                var editor = evt.editor;
-                                var isReady = true;
-                                
-                                editor.on('focus', function (e) {
-                                    if (isReady && $(".qdm-popup-background").length <= 0) {
-                                        isReady = false;
-                                        $.post("/Account/CheckLogin", null, function (response) {
-                                            if (response !== null) {
-                                                isLogin = true;
-                                            } else {
-                                                // Show popup login
-                                                qdm_popup.init({
-                                                    type: 4,
-                                                    message: "You are need login before leave an answer.",
-                                                    button_link: { text: "Login", link: "/login?returnUrl=" + document.location.pathname },
-                                                    show_close: true,
-                                                    icon: 2
-                                                });
-                                            }
-                                            isReady = true;
-                                        });
-                                    }
-                                });
+            //                // Catch focus event
+            //                CKEDITOR.on('instanceReady', function (evt) {
+            //                    var editor = evt.editor;
+            //                    var isReady = true;
 
-                                CKEDITOR.instances.txtAnswer.focus(); // auto focus
-                            });
-                        }
-                    });
-                    //}, 2000);
-                }
+            //                    editor.on('focus', function (e) {
+            //                        if (isReady && $(".qdm-popup-background").length <= 0) {
+            //                            isReady = false;
+            //                            $.post("/Account/CheckLogin", null, function (response) {
+            //                                if (response !== null) {
+            //                                    isLogin = true;
+            //                                } else {
+            //                                    // Show popup login
+            //                                    qdm_popup.init({
+            //                                        type: 4,
+            //                                        message: "You are need login before leave an answer.",
+            //                                        button_link: { text: "Login", link: "/login?returnUrl=" + document.location.pathname },
+            //                                        show_close: true,
+            //                                        icon: 2
+            //                                    });
+            //                                }
+            //                                isReady = true;
+            //                            });
+            //                        }
+            //                    });
+
+            //                    CKEDITOR.instances.txtAnswer.focus(); // auto focus
+            //                });
+            //            }
+            //        });
+            //        //}, 2000);
+            //    }
+            //});
+
+            $("#txtAnswer").focus(function () {
+                $.post("/Account/CheckLogin", null, function (response) {
+                    if (response === null || response === undefined) {
+                        // Show popup login
+                        qdm_popup.init({
+                            type: 4,
+                            message: "You are need login before leave an answer.",
+                            button_link: { text: "Login", link: "/login?returnUrl=" + document.location.pathname },
+                            show_close: true,
+                            icon: 2
+                        });
+                    }
+                });
             });
 
-
             $("#btnPostAnswer").click(function () {
-                var answer = $.trim(CKEDITOR.instances['txtAnswer'].getData());
+                //var answer = $.trim(CKEDITOR.instances['txtAnswer'].getData());
+                var answer = $("#txtAnswer").val();
                 if (answer === "") {
                     $(".main-comment .button .msg").html('<p id="lblErorMsg" style="color: #AD4343"> <i class="icon-attention"></i> Please enter your answer.</p>');
                     return;
@@ -11334,7 +11349,8 @@ var qa_detail = {
                                 });
                             } else {
 
-                                CKEDITOR.instances['txtAnswer'].setData("");
+                                //CKEDITOR.instances['txtAnswer'].setData("");
+                                $("#txtAnswer").val("");
                                 // Show popup login
                                 qdm_popup.init({
                                     type: 4,

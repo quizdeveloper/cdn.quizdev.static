@@ -12218,54 +12218,62 @@ var comment = {
     init: function () {
 
         // Init ckeditor
-        $(".ckeditor-make").each(function () {
-            var id = $(this).attr("id");
+        //$(".ckeditor-make").each(function () {
+        //    var id = $(this).attr("id");
 
-            if (!CKEDITOR.instances[id]) {
+        //    if (!CKEDITOR.instances[id]) {
 
-                var introduction = document.getElementById(id);
-                introduction.setAttribute('contenteditable', true);
+        //        var introduction = document.getElementById(id);
+        //        introduction.setAttribute('contenteditable', true);
 
-                CKEDITOR.disableAutoInline = true;
-                CKEDITOR.inline(id, {
-                    height: 300,
-                    customConfig: '/js/lib/ckeditor/config.js'
-                });
+        //        CKEDITOR.disableAutoInline = true;
+        //        CKEDITOR.inline(id, {
+        //            height: 300,
+        //            customConfig: '/js/lib/ckeditor/config.js'
+        //        });
 
-                // Catch focus event
-                CKEDITOR.on('instanceReady', function (evt) {
-                    var editor = evt.editor;
-                    var isReady = true;
-                    editor.on('focus', function (e) {
-                        if (isReady && $(".qdm-popup-background").length <= 0) {
-                            isReady = false;
-                            $.post("/Account/CheckLogin", null, function (response) {
-                                if (response !== null) {
-                                    isLogin = true;
-                                } else {
-                                    // Show popup login
-                                    qdm_popup.init({
-                                        type: 4,
-                                        message: "You are need login before leave an comment.",
-                                        button_link: { text: "Login", link: "/login?returnUrl=" + document.location.pathname },
-                                        show_close: true,
-                                        icon: 2
-                                    });
-                                }
-                                isReady = true;
-                            });
-                        }
-                    });
-                });
-            }
+        //        // Catch focus event
+        //        CKEDITOR.on('instanceReady', function (evt) {
+        //            var editor = evt.editor;
+        //            var isReady = true;
+        //            editor.on('focus', function (e) {
+        //                if (isReady && $(".qdm-popup-background").length <= 0) {
+        //                    isReady = false;
+        //                    $.post("/Account/CheckLogin", null, function (response) {
+        //                        if (response !== null) {
+        //                            isLogin = true;
+        //                        } else {
+        //                            // Show popup login
+        //                            qdm_popup.init({
+        //                                type: 4,
+        //                                message: "You are need login before leave an comment.",
+        //                                button_link: { text: "Login", link: "/login?returnUrl=" + document.location.pathname },
+        //                                show_close: true,
+        //                                icon: 2
+        //                            });
+        //                        }
+        //                        isReady = true;
+        //                    });
+        //                }
+        //            });
+        //        });
+        //    }
+        //});
+
+
+        $(".text-area, .text-area-small").off("focus");
+        $(".text-area, .text-area-small").focus(function () {
+            comment.check_login();
         });
 
         comment.add_read_more();
     }, 
     insert: function (elm) {
-        var ckId = $(elm).parent().parent().parent().find(".ckeditor-make").attr("id");
+        //var ckId = $(elm).parent().parent().parent().find(".ckeditor-make").attr("id");
+        var ckId = $(elm).parent().parent().parent().find(".input-area").attr("id");
         if (ckId !== null && ckId !== undefined && ckId !== '') {
-            var answer = $.trim(CKEDITOR.instances[ckId].getData());
+            //var answer = $.trim(CKEDITOR.instances[ckId].getData());
+            var answer = $("#" + ckId).val();
             if (answer === "") {
                 qdm_popup.init({
                     type: 4,
@@ -12307,7 +12315,7 @@ var comment = {
                             });
                         } else {
 
-                            CKEDITOR.instances[ckId].setData("");
+                            //CKEDITOR.instances[ckId].setData("");
                             // Show popup login
                             qdm_popup.init({
                                 type: 4,
@@ -12320,6 +12328,13 @@ var comment = {
                         }
                     }
                     qdm_popup.clear();
+
+                    // remove form
+                    if (!$(elm).parent().parent().parent().find(".main-editor").length > 0) {
+                        comment.cancel(elm);
+                    } else {
+                        $(elm).parent().parent().parent().find(".input-area").val("");
+                    }
                 });
             }
         }
@@ -12334,7 +12349,8 @@ var comment = {
         var formText = '';
         formText += '<div class="comment-post">';
         formText += '	<div class="comment-input">';
-        formText += '		<div class="comment-text ckeditor-make" id="' + editorId +'" title="Leave an comment..."> </div>';
+        //formText += '		<div class="comment-text ckeditor-make" id="' + editorId +'" title="Leave an comment..."> </div>';
+        formText += '		<div class="comment-text1 full-width pull-left"> <textarea id="' + editorId +'" title="Leave an comment..." class="text-area-small input-area"></textarea> </div>';
         formText += '	</div>';
         formText += '	<div class="button" data-newid="' + newsId + '" data-parent="' + parentNodeText + '">';
         formText += '		<button class="btn-submit" type="button"  onclick="comment.insert(this)">Post</button>';
@@ -12343,19 +12359,24 @@ var comment = {
         formText += '</div>';
         
         $(parentNode).append(formText);
-        
-        // init ckeditor
-        if (!CKEDITOR.instances[editorId]) {
 
-            var introduction = document.getElementById(editorId);
-            if (introduction != null) introduction.setAttribute('contenteditable', true);
+        $(".text-area, .text-area-small").off("focus");
+        $(".text-area, .text-area-small").focus(function () {
+            comment.check_login();
+        });
 
-            CKEDITOR.disableAutoInline = true;
-            CKEDITOR.inline(editorId, {
-                height: 300,
-                customConfig: '/js/lib/ckeditor/config.js'
-            });
-        }
+        //// init ckeditor
+        //if (!CKEDITOR.instances[editorId]) {
+
+        //    var introduction = document.getElementById(editorId);
+        //    if (introduction != null) introduction.setAttribute('contenteditable', true);
+
+        //    CKEDITOR.disableAutoInline = true;
+        //    CKEDITOR.inline(editorId, {
+        //        height: 300,
+        //        customConfig: '/js/lib/ckeditor/config.js'
+        //    });
+        //}
           
     },
     check_login: function (callback) {
@@ -12378,10 +12399,16 @@ var comment = {
     },
     cancel: function (elm) {
         if (elm !== undefined) {
+            //var parentNode = $(elm).closest(".parent-node");
+            //var editorId = $(parentNode).data("editor");
+            //if (CKEDITOR.instances[editorId]) {
+            //    CKEDITOR.instances[editorId].destroy();  
+            //    $(elm).closest(".comment-post").remove();
+            //}
+
             var parentNode = $(elm).closest(".parent-node");
             var editorId = $(parentNode).data("editor");
-            if (CKEDITOR.instances[editorId]) {
-                CKEDITOR.instances[editorId].destroy();  
+            if ($("#" + editorId).length > 0) {
                 $(elm).closest(".comment-post").remove();
             }
         }
@@ -12395,7 +12422,7 @@ var comment = {
                     if (response.success) {
                         $(elm).addClass("active");
                         var currentLike = $(elm).parent().find(".total-like").text();
-                        if (currentLike == undefined || currentLike === "" || isNaN(currentLike)) currentLike = 0;
+                        if (currentLike === undefined || currentLike === "" || isNaN(currentLike)) currentLike = 0;
                         $(elm).parent().find(".total-like").text((parseInt(currentLike) + 1));
                         $(elm).off("click").removeAttr("onclick");
                     }
