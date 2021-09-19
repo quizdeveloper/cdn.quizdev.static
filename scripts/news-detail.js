@@ -12510,14 +12510,14 @@ var news_detail = {
                 //if ($(".ads-code").length > 0 && isLocal === 0) {
                 if ($(".ads-code").length > 0) {
 
-                    let countAds = 182;
-                    $(".ads-code").each(function () {
-                        countAds++;
-                        if (countAds <= 188) {
-                            let ads = '<div id="ezoic-pub-ad-placeholder-' + countAds +'"> </div>';
-                            $(this).html(ads);
-                        }
-                    });
+                    //let countAds = 182;
+                    //$(".ads-code").each(function () {
+                    //    countAds++;
+                    //    if (countAds <= 188) {
+                    //        let ads = '<div id="ezoic-pub-ad-placeholder-' + countAds +'"> </div>';
+                    //        $(this).html(ads);
+                    //    }
+                    //});
 
                     //$.ajax({
                     //    url: "/Home/ShowResponsiveAds",
