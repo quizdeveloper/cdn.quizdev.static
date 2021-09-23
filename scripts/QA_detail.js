@@ -11228,25 +11228,25 @@ var qa_detail = {
                     editorLoaded = true;
                 }
 
-                // add ads for mobile
-                if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
-                    isLoadAdsWap = true;
-                    $("div.ads_qa_header .show_ads_mobile").each(function () {
-                        var ads = '';
-                        ads += ' <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
-                        ads += '<ins class="adsbygoogle"';
-                        ads += '     style="display:block"';
-                        ads += '     data-ad-client="ca-pub-9281966853731924"';
-                        ads += '     data-ad-slot="8942510359"';
-                        ads += '     data-ad-format="auto"';
-                        ads += '     data-full-width-responsive="true"></ins>';
-                        ads += '<script>';
-                        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
-                        ads += '</script>';
+                //// add ads for mobile
+                //if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
+                //    isLoadAdsWap = true;
+                //    $("div.ads_qa_header .show_ads_mobile").each(function () {
+                //        var ads = '';
+                //        ads += ' <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
+                //        ads += '<ins class="adsbygoogle"';
+                //        ads += '     style="display:block"';
+                //        ads += '     data-ad-client="ca-pub-9281966853731924"';
+                //        ads += '     data-ad-slot="8942510359"';
+                //        ads += '     data-ad-format="auto"';
+                //        ads += '     data-full-width-responsive="true"></ins>';
+                //        ads += '<script>';
+                //        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
+                //        ads += '</script>';
 
-                        $(this).html(ads);
-                    });
-                }
+                //        $(this).html(ads);
+                //    });
+                //}
             });
 
 
