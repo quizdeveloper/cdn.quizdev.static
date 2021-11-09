@@ -12473,6 +12473,8 @@ var news_detail = {
             //    }
             //});
 
+            let isLoadAdsWap = false;
+            let isLocal = parseInt($("#hdLocalEnv").val()); 
             el.on('scroll', function () {
                 var documentWidth = $("html,body").outerWidth();
                 if (documentWidth <= 767) {
@@ -12489,6 +12491,27 @@ var news_detail = {
                     var maxH = $(".main-container .primary").height() - 11;
                     $(".main-container .secondary").css("height", maxH + "px");
                 }
+
+                // add ads for mobile
+                if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
+                    isLoadAdsWap = true;
+                    $("div.ads_qa_header .show_ads_mobile").each(function () {
+                        var ads = '';
+                        ads += ' <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
+                        ads += '<ins class="adsbygoogle"';
+                        ads += '     style="display:block"';
+                        ads += '     data-ad-client="ca-pub-9281966853731924"';
+                        ads += '     data-ad-slot="8942510359"';
+                        ads += '     data-ad-format="auto"';
+                        ads += '     data-full-width-responsive="true"></ins>';
+                        ads += '<script>';
+                        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
+                        ads += '</script>';
+
+                        $(this).html(ads);
+                    });
+                }
+
             });
 
             if ($(".content-of-table").length > 0) {
@@ -12505,10 +12528,10 @@ var news_detail = {
 
             comment.init();
 
-            setTimeout(function () {
+            //setTimeout(function () {
                 //var isLocal = parseInt($("#hdLocalEnv").val());
                 //if ($(".ads-code").length > 0 && isLocal === 0) {
-                if ($(".ads-code").length > 0) {
+                //if ($(".ads-code").length > 0) {
 
                     //let countAds = 182;
                     //$(".ads-code").each(function () {
@@ -12531,6 +12554,26 @@ var news_detail = {
                     //        }
                     //    }
                     //});
+                //}
+            //}, 3000);
+
+            setTimeout(function () {
+                var isLocal = parseInt($("#hdLocalEnv").val());
+                if ($("div.ads-code").length > 0 && isLocal === 0) {
+                    $("div.ads-code").each(function () {
+                        var ads = '';
+                        ads += '<ins class="adsbygoogle"';
+                        ads += '     style="display:block"';
+                        ads += '     data-ad-client="ca-pub-9281966853731924"';
+                        ads += '     data-ad-slot="8269087623"';
+                        ads += '     data-ad-format="auto"';
+                        ads += '     data-full-width-responsive="true"></ins>';
+                        ads += '<script>';
+                        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
+                        ads += '</script>';
+
+                        $(this).html(ads);
+                    });
                 }
             }, 3000);
 
