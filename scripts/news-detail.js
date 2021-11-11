@@ -11182,55 +11182,41 @@ var qdm_popup = qdm_popup || {};
 var main = {
     init: function () {
 
-        setTimeout(function () {
-            var result = justDetectAdblock["detectAnyAdblocker"]();
-            var displayResult = function (detected) {
-                if (detected) {
-                    // Show dialog here
-                    qdm_popup.init({
-                        type: 4,
-                        message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
-                        button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
-                        show_close: false,
-                        icon: 2
-                    });
-
-                    //push to queue
-                    $.post("/Home/PushAdsBlockQueue", { isdetected: true }, function (response) { });
-                } else {
-                    //push to queue
-                    $.post("/Home/PushAdsBlockQueue", { isdetected: false }, function (response) { });
-                }
-            };
-
-            if (result instanceof Promise) {
-                result.then(function (detected) {
-                    displayResult(detected);
-                });
-            } else {
-                displayResult(result);
-            }
-        }, 500);
-
         // Check blocked ads
-        //window.onload = function () {
-        //    setTimeout(function () {
-        //        console.log("isAllowShowAdd: " + window.isAllowShowAdd);
-        //        if (window.isAllowShowAdd === undefined) {
-        //            // Show dialog here
-        //            //qdm_popup.init({
-        //            //    type: 4,
-        //            //    message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
-        //            //    button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
-        //            //    show_close: false,
-        //            //    icon: 2
-        //            //});
+        window.onload = function () {
+            setTimeout(function () {
+                var result = justDetectAdblock["detectAnyAdblocker"]();
+                var displayResult = function (detected) {
+                    if (detected) {
+                        // Show dialog here
+                        qdm_popup.init({
+                            type: 4,
+                            message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
+                            button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+                            show_close: false,
+                            icon: 2
+                        });
 
-        //            ////push to queue
-        //            //$.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
-        //        }
-        //    }, 500);
-        //}
+                        //push to queue
+                        $.post("/Home/PushAdsBlockQueue", { isdetected: true }, function (response) { });
+                    } else {
+                        //push to queue
+                        $.post("/Home/PushAdsBlockQueue", { isdetected: false }, function (response) { });
+
+                        // show ads
+                        main.show_float_ads_web();
+                    }
+                };
+
+                if (result instanceof Promise) {
+                    result.then(function (detected) {
+                        displayResult(detected);
+                    });
+                } else {
+                    displayResult(result);
+                }
+            }, 500);
+        }
 
         $(document).ready(function () {
 
@@ -11447,28 +11433,6 @@ var main = {
                 });
             }
 
-            // Show popup ads
-            //var documentWidthAds = $("html,body").outerWidth();
-            //if (documentWidthAds > 767) {
-            //    var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
-            //    adsStr += '<ins class="adsbygoogle example_responsive_10"';
-            //    adsStr += '	 style="display:inline-block"';
-            //    adsStr += '	 data-ad-client="ca-pub-9281966853731924"';
-            //    adsStr += '	 data-ad-slot="8942510359"></ins>';
-            //    adsStr += '<script>';
-            //    adsStr += '	(adsbygoogle = window.adsbygoogle || []).push({});';
-            //    adsStr += '</script>';
-            //    setTimeout(function () {
-            //        $(".ads-popup-container .close").click(function () {
-            //            $(".ads-popup-container").remove();
-            //        });
-
-            //        $(".ads-popup-container").animate({ bottom: 0 }, 500);
-            //        $(".ads-popup-container .ads").html(adsStr);
-            //    }, 10000);
-
-            //}
-
             // Load login item menu
             main.check_login();
         });
@@ -11596,6 +11560,29 @@ var main = {
             }
         });
     },
+    show_float_ads_web: function () {
+        // Show popup ads
+        let documentWidthAds = $("html,body").outerWidth();
+        if (documentWidthAds > 767) {
+            var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
+            adsStr += '<ins class="adsbygoogle example_responsive_10"';
+            adsStr += '	 style="display:inline-block"';
+            adsStr += '	 data-ad-client="ca-pub-9281966853731924"';
+            adsStr += '	 data-ad-slot="8942510359"></ins>';
+            adsStr += '<script>';
+            adsStr += '	(adsbygoogle = window.adsbygoogle || []).push({});';
+            adsStr += '</script>';
+            setTimeout(function () {
+                $(".ads-popup-container .close").click(function () {
+                    $(".ads-popup-container").remove();
+                });
+
+                $(".ads-popup-container").animate({ bottom: 0 }, 500);
+                $(".ads-popup-container .ads").html(adsStr);
+            }, 3000);
+
+        }
+    }
 };
 
 
@@ -12487,23 +12474,23 @@ var news_detail = {
                 // initialize last scroll position
                 lastY = el.scrollTop();
 
-            //el.on("load", function () {
-            //    // Sticky social
-            //    if (documentWidth > 767) {
-            //        setTimeout(function () {
-            //            var maxH = $(".main-container .primary").height() - 11;
-            //            $(".main-container .secondary").css("height", maxH + "px")
+            el.on("load", function () {
+                // Sticky social
+                if (documentWidth > 767) {
+                    setTimeout(function () {
+                        var maxH = $(".main-container .primary").height() - 11;
+                        $(".main-container .secondary").css("height", maxH + "px")
 
-            //            if ($("#sticker").length > 0) {
-            //                $("#sticker").stick_in_parent({ offset_top: 70 });
-            //            }
+                        if ($("#sticker").length > 0) {
+                            $("#sticker").stick_in_parent({ offset_top: 70 });
+                        }
 
-            //            if ($(".sticky-pc").length > 0) {
-            //                $(".sticky-pc").stick_in_parent({ offset_top: 60 });
-            //            }
-            //        }, 500);
-            //    }
-            //});
+                        if ($(".sticky-pc").length > 0) {
+                            $(".sticky-pc").stick_in_parent({ offset_top: 60 });
+                        }
+                    }, 500);
+                }
+            });
 
             let isLoadAdsWap = false;
             let isLocal = parseInt($("#hdLocalEnv").val()); 
@@ -12591,7 +12578,8 @@ var news_detail = {
 
             setTimeout(function () {
                 var isLocal = parseInt($("#hdLocalEnv").val());
-                if ($("div.ads-code").length > 0 && isLocal === 0) {
+                var isShowAdsense = parseInt($("#hdLocalEnv").val());
+                if ($("div.ads-code").length > 0 && isLocal === 0 && isShowAdsense === 1) {
                     $("div.ads-code").each(function () {
                         var ads = '';
                         ads += '<ins class="adsbygoogle"';
