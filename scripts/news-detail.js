@@ -11180,6 +11180,36 @@ var qdm_popup = qdm_popup || {};
 var main = {
     init: function () {
 
+        setTimeout(function () {
+            var result = justDetectAdblock["detectAnyAdblocker"]();
+            var displayResult = function (detected) {
+                if (detected) {
+                    // Show dialog here
+                    qdm_popup.init({
+                        type: 4,
+                        message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
+                        button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+                        show_close: false,
+                        icon: 2
+                    });
+
+                    //push to queue
+                    $.post("/Home/PushAdsBlockQueue", { isdetected: true }, function (response) { });
+                } else {
+                    //push to queue
+                    $.post("/Home/PushAdsBlockQueue", { isdetected: false }, function (response) { });
+                }
+            };
+
+            if (result instanceof Promise) {
+                result.then(function (detected) {
+                    displayResult(detected);
+                });
+            } else {
+                displayResult(result);
+            }
+        }, 500);
+
         // Check blocked ads
         //window.onload = function () {
         //    setTimeout(function () {
