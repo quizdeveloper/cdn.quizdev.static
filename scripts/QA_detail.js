@@ -11228,25 +11228,25 @@ var qa_detail = {
                     editorLoaded = true;
                 }
 
-                //// add ads for mobile
-                //if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
-                //    isLoadAdsWap = true;
-                //    $("div.ads_qa_header .show_ads_mobile").each(function () {
-                //        var ads = '';
-                //        ads += ' <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
-                //        ads += '<ins class="adsbygoogle"';
-                //        ads += '     style="display:block"';
-                //        ads += '     data-ad-client="ca-pub-9281966853731924"';
-                //        ads += '     data-ad-slot="8942510359"';
-                //        ads += '     data-ad-format="auto"';
-                //        ads += '     data-full-width-responsive="true"></ins>';
-                //        ads += '<script>';
-                //        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
-                //        ads += '</script>';
+                // add ads for mobile
+                if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
+                    isLoadAdsWap = true;
+                    $("div.ads_qa_header .show_ads_mobile").each(function () {
+                        var ads = '';
+                        ads += ' <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
+                        ads += '<ins class="adsbygoogle"';
+                        ads += '     style="display:block"';
+                        ads += '     data-ad-client="ca-pub-9281966853731924"';
+                        ads += '     data-ad-slot="8942510359"';
+                        ads += '     data-ad-format="auto"';
+                        ads += '     data-full-width-responsive="true"></ins>';
+                        ads += '<script>';
+                        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
+                        ads += '</script>';
 
-                //        $(this).html(ads);
-                //    });
-                //}
+                        $(this).html(ads);
+                    });
+                }
             });
 
 
@@ -11437,24 +11437,24 @@ var main = {
     init: function () {
 
         // Check blocked ads
-        window.onload = function () {
-            setTimeout(function () {
-                console.log("isAllowShowAdd: " + window.isAllowShowAdd);
-                if (window.isAllowShowAdd === undefined) {
-                    // Show dialog here
-                    //qdm_popup.init({
-                    //    type: 4,
-                    //    message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
-                    //    button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
-                    //    show_close: false,
-                    //    icon: 2
-                    //});
+        //window.onload = function () {
+        //    setTimeout(function () {
+        //        console.log("isAllowShowAdd: " + window.isAllowShowAdd);
+        //        if (window.isAllowShowAdd === undefined) {
+        //            // Show dialog here
+        //            //qdm_popup.init({
+        //            //    type: 4,
+        //            //    message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
+        //            //    button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+        //            //    show_close: false,
+        //            //    icon: 2
+        //            //});
 
-                    ////push to queue
-                    //$.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
-                }
-            }, 500);
-        }
+        //            ////push to queue
+        //            //$.post("/Home/PushAdsBlockQueue", null, function (response) { console.log("push success!!");});
+        //        }
+        //    }, 500);
+        //}
 
         $(document).ready(function () {
 
