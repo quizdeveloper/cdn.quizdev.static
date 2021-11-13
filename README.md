@@ -1,2 +1,2 @@
 # cdn.quizdev.static
-Store css &amp; js file
+This is CDN statis file for https://quizdeveloper.com
