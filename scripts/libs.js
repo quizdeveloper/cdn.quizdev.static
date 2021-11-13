@@ -11079,8 +11079,8 @@ var main = {
                         // Show dialog here
                         qdm_popup.init({
                             type: 4,
-                            message: "You are turning on AdBlock, AdBlock Plus or other extention in your browser. Please <b>TURN OFF</b> it.",
-                            button_link: { text: "Sure! I just turn off it", link: document.location.pathname },
+                            message: "You are turning on AdBlock, AdBlock Plus or other AdBlock extensions in your browser. Please <b>TURN OFF</b> it. I need to show ads to maintain this blog.",
+                            button_link: { text: "Sure! I turned off it.", link: document.location.pathname },
                             show_close: false,
                             icon: 2
                         });
@@ -11103,7 +11103,7 @@ var main = {
                 } else {
                     displayResult(result);
                 }
-            }, 500);
+            }, 0);
         }
 
         $(document).ready(function () {
