@@ -11560,7 +11560,8 @@ var main = {
     show_float_ads_web: function () {
         // Show popup ads
         let documentWidthAds = $("html,body").outerWidth();
-        if (documentWidthAds > 767) {
+        let isShowAdsense = parseInt($("#hdShowAdsense").val());
+        if (documentWidthAds > 767 && isShowAdsense === 1) {
             var adsStr = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9281966853731924" crossorigin="anonymous"></script>';
             adsStr += '<ins class="adsbygoogle example_responsive_10"';
             adsStr += '	 style="display:inline-block"';
