@@ -428,12 +428,20 @@ window.onbeforeunload = function (evt) {
     }
 };
 
+window.onload = function () {
+    qdm_popup.clear();
+};
+
 var confirmRedirect = false;
 var quiz = {
     question_data: [],
     question_index: 0,
     init: function () {
         $(document).ready(function () {
+
+            //Show loading
+            qdm_popup.init({ width: "auto" });
+
             if ($("#hdHasLogin").val() !== "1") {
                 confirmRedirect = true;
                 $("#btnsubmit").remove();
@@ -459,10 +467,10 @@ var quiz = {
             // Caculate height box quiz
             //var documentWidth = $("html,body").outerWidth();
             //if (documentWidth >= 661) {
-                const windowHeight = $(window).outerHeight() - 90;
-                $(".quiz-col-right").attr("style", "min-height: " + windowHeight + "px");
-                $(".quiz-col-left").attr("style", "min-height: " + windowHeight + "px");
-                $(".quiz-col-left").find(".list-item-summary").attr("style", "min-height: " + (windowHeight - 68) + "px");
+            const windowHeight = $(window).outerHeight() - 90;
+            $(".quiz-col-right").attr("style", "min-height: " + windowHeight + "px");
+            $(".quiz-col-left").attr("style", "min-height: " + windowHeight + "px");
+            $(".quiz-col-left").find(".list-item-summary").attr("style", "min-height: " + (windowHeight - 68) + "px");
             //}
 
             // Init Quiz
@@ -474,7 +482,7 @@ var quiz = {
                 if ($('.bg-model').length <= 0) {
                     $('.quiz-container .quiz-col-left').addClass('display-b');
                     //$('nav ul.menu .icon-menu-1').addClass('clr-20');
-                   // $('div.bg-model').remove();
+                    // $('div.bg-model').remove();
                     $('body').append('<div class="bg-model"></div>');
                 } else {
                     $('.quiz-container .quiz-col-left').removeClass('display-b');
@@ -583,21 +591,22 @@ var quiz = {
             $(".box-content-question").html(strHtml);
 
             // add ads
-            //if (!isNaN(stt)) {
-            //    if (parseInt(stt) % 2 !== 0) {
-            //        if ($(".quiz-ads-content").length > 0) {
-            //            var htmlAds = "";
-            //            htmlAds += '<ins class="adsbygoogle example_responsive_2"';
-            //            htmlAds += '	 style="display:inline-block"';
-            //            htmlAds += '	 data-ad-client="ca-pub-9281966853731924"';
-            //            htmlAds += '	 data-ad-slot="8942510359"></ins>';
-            //            htmlAds += '<script>';
-            //            htmlAds += '	(adsbygoogle = window.adsbygoogle || []).push({});';
-            //            htmlAds += '</script>';
-            //            $(".quiz-ads-content").html(htmlAds);
-            //        }
-            //    }
-            //}
+            if (!isNaN(stt)) {
+                var isShowAdsense = parseInt($("#hdShowAdsense").val());
+                if (parseInt(stt) % 3 !== 0 && isShowAdsense === 1) {
+                    if ($(".quiz-ads-content").length > 0) {
+                        var htmlAds = "";
+                        htmlAds += '<ins class="adsbygoogle example_responsive_2"';
+                        htmlAds += '	 style="display:inline-block"';
+                        htmlAds += '	 data-ad-client="ca-pub-9281966853731924"';
+                        htmlAds += '	 data-ad-slot="8942510359"></ins>';
+                        htmlAds += '<script>';
+                        htmlAds += '	(adsbygoogle = window.adsbygoogle || []).push({});';
+                        htmlAds += '</script>';
+                        $(".quiz-ads-content").html(htmlAds);
+                    }
+                }
+            }
         }
     },
     set_answer: function () {

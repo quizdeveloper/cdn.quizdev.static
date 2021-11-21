@@ -11231,7 +11231,8 @@ var qa_detail = {
                 }
 
                 // add ads for mobile
-                if (documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
+                let isShowAdsense = parseInt($("#hdShowAdsense").val());
+                if (isShowAdsense === 1 && documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
                     isLoadAdsWap = true;
                     $("div.ads_qa_header .show_ads_mobile").each(function () {
                         var ads = '';
