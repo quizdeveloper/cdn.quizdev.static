@@ -12494,7 +12494,7 @@ var news_detail = {
             });
 
             let isLoadAdsWap = false;
-            let isLocal = parseInt($("#hdLocalEnv").val()); 
+            let isLocal = parseInt($("#hdLocalEnv").val());
             el.on('scroll', function () {
                 var documentWidth = $("html,body").outerWidth();
                 if (documentWidth <= 767) {
@@ -12514,7 +12514,7 @@ var news_detail = {
 
                 // add ads for mobile
                 let isShowAdsense = parseInt($("#hdShowAdsense").val());
-                if (isShowAdsense ===  1 && documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
+                if (isShowAdsense === 1 && documentWidth <= 767 && $("div.ads_qa_header .show_ads_mobile").length > 0 && isLocal === 0 && !isLoadAdsWap) {
                     isLoadAdsWap = true;
                     $("div.ads_qa_header .show_ads_mobile").each(function () {
                         var ads = '';
@@ -12549,55 +12549,36 @@ var news_detail = {
 
             comment.init();
 
-            //setTimeout(function () {
-                //var isLocal = parseInt($("#hdLocalEnv").val());
-                //if ($(".ads-code").length > 0 && isLocal === 0) {
-                //if ($(".ads-code").length > 0) {
-
-                    //let countAds = 182;
-                    //$(".ads-code").each(function () {
-                    //    countAds++;
-                    //    if (countAds <= 188) {
-                    //        let ads = '<div id="ezoic-pub-ad-placeholder-' + countAds +'"> </div>';
-                    //        $(this).html(ads);
-                    //    }
-                    //});
-
-                    //$.ajax({
-                    //    url: "/Home/ShowResponsiveAds",
-                    //    type: "GET",
-                    //    dataType: "html",
-                    //    data: null,
-                    //    async: true,
-                    //    success: function (response) {
-                    //        if (response !== null) {
-                    //            $(".ads-code").html(response);
-                    //        }
-                    //    }
-                    //});
-                //}
-            //}, 3000);
-
             setTimeout(function () {
-                var isLocal = parseInt($("#hdLocalEnv").val());
-                let isShowAdsense = parseInt($("#hdShowAdsense").val());
-                if ($("div.ads-code").length > 0 && isLocal === 0 && isShowAdsense === 1) {
-                    $("div.ads-code").each(function () {
-                        var ads = '';
-                        ads += '<ins class="adsbygoogle"';
-                        ads += '     style="display:block"';
-                        ads += '     data-ad-client="ca-pub-9281966853731924"';
-                        ads += '     data-ad-slot="8269087623"';
-                        ads += '     data-ad-format="auto"';
-                        ads += '     data-full-width-responsive="true"></ins>';
-                        ads += '<script>';
-                        ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
-                        ads += '</script>';
-
-                        $(this).html(ads);
+                //var isLocal = parseInt($("#hdLocalEnv").val());
+                if ($(".ads-code").length > 0) {
+                    $(".ads-code").each(function () {
+                            let ads = '<div class="adsbyvli" style="width:728px; height:90px" data-ad-slot="vi_988185087"></div> <script>(vitag.Init = window.vitag.Init || []).push(function () { viAPItag.display("vi_988185087") })<\/script>';
+                            $(this).html(ads);
                     });
                 }
             }, 3000);
+
+            //setTimeout(function () {
+            //    var isLocal = parseInt($("#hdLocalEnv").val());
+            //    let isShowAdsense = parseInt($("#hdShowAdsense").val());
+            //    if ($("div.ads-code").length > 0 && isLocal === 0 && isShowAdsense === 1) {
+            //        $("div.ads-code").each(function () {
+            //            var ads = '';
+            //            ads += '<ins class="adsbygoogle"';
+            //            ads += '     style="display:block"';
+            //            ads += '     data-ad-client="ca-pub-9281966853731924"';
+            //            ads += '     data-ad-slot="8269087623"';
+            //            ads += '     data-ad-format="auto"';
+            //            ads += '     data-full-width-responsive="true"></ins>';
+            //            ads += '<script>';
+            //            ads += '     (adsbygoogle = window.adsbygoogle || []).push({});';
+            //            ads += '</script>';
+
+            //            $(this).html(ads);
+            //        });
+            //    }
+            //}, 3000);
 
             $(".rate-article-detail").starRating({
                 totalStars: 5,
