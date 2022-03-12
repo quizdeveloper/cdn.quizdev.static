@@ -12496,7 +12496,7 @@ var news_detail = {
             let isLoadAdsWap = false;
             let isLocal = parseInt($("#hdLocalEnv").val());
             el.on('scroll', function () {
-                var documentWidth = $("html,body").outerWidth();
+                let documentWidth = $("html,body").outerWidth();
                 if (documentWidth <= 767) {
                     // Hide social fix bar
                     var screenTop = $(document).scrollTop();
@@ -12550,14 +12550,32 @@ var news_detail = {
             comment.init();
 
             setTimeout(function () {
-                //var isLocal = parseInt($("#hdLocalEnv").val());
                 if ($(".ads-code").length > 0) {
-                    $(".ads-code").each(function () {
-                            let ads = '<div class="adsbyvli" style="width:728px; height:90px" data-ad-slot="vi_988185087"></div> <script>(vitag.Init = window.vitag.Init || []).push(function () { viAPItag.display("vi_988185087") })<\/script>';
+                    debugger;
+                    let documentWidth_one = $("html,body").outerWidth();
+                    if (documentWidth_one <= 767) {
+                        $(".ads-code").each(function () {
+                            $(this).addClass("text-center");
+                            let ads = '<div class="adsbyvli" style="display:inline-block; width:300px; height:250px" data-ad-slot="vi_988185086"></div> <script>(vitag.Init = window.vitag.Init || []).push(function () { viAPItag.display("vi_988185086") })</script>';
                             $(this).html(ads);
-                    });
+                        });
+                    } else {
+
+                        $.ajax({
+                            url: "/Home/ShowDoubleAds",
+                            type: "GET",
+                            dataType: "html",
+                            data: null,
+                            async: true,
+                            success: function (response) {
+                                if (response !== null) {
+                                    $(".ads-code").html(response);
+                                }
+                            }
+                        });
+                    }
                 }
-            }, 3000);
+            }, 2000);
 
             //setTimeout(function () {
             //    var isLocal = parseInt($("#hdLocalEnv").val());
